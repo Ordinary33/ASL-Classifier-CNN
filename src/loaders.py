@@ -5,11 +5,11 @@ from src.dataset import ASLDataset
 from src.transforms import get_transform
 
 
-def get_loaders(root_dir, batch_Size, val_split=0.2):
+def get_loaders(batch_Size, val_split=0.2):
     transforms = get_transform()
 
-    train_dataset_full = ASLDataset(root_dir=root_dir, transform=transforms["train"])
-    val_dataset_full = ASLDataset(root_dir=root_dir, transform=transforms["val"])
+    train_dataset_full = ASLDataset(transform=transforms["train"])
+    val_dataset_full = ASLDataset(transform=transforms["val"])
 
     dataset_size = len(train_dataset_full)
     val_size = int(val_split * dataset_size)
