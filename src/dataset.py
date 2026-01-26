@@ -4,13 +4,13 @@ from src import logger_config
 from torchvision.datasets import ImageFolder
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DF_PATH = PROJECT_ROOT / "data"
+root_dir = PROJECT_ROOT / "data" / "asl_alphabet_train" / "asl_alphabet_train"
 
 logger = logger_config.setup_logger(name="dataset_logger")
 
 
 class ASLDataset(Dataset):
-    def __init__(self, root_dir: str, transform=None):
+    def __init__(self, root_dir=root_dir, transform=None):
         self.dataset = ImageFolder(root=root_dir, transform=transform)
         logger.info(
             f"Dataset initialized with {len(self.dataset)} samples from {root_dir}"
