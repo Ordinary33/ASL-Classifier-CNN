@@ -16,12 +16,12 @@ def get_loaders(batch_Size, val_split=0.2):
     train_size = dataset_size - val_size
 
     generator = torch.Generator().manual_seed(42)
-    train_idxs, val_idxs = random_split(
-        range(dataset_size), [train_size, val_size], generator=generator
+    train_subset_temp, val_subset_temp = random_split(
+        train_dataset_full, [train_size, val_size], generator=generator
     )
 
-    train_subset = Subset(train_dataset_full, train_idxs)
-    val_subset = Subset(val_dataset_full, val_idxs)
+    train_subset = train_subset_temp
+    val_subset = Subset(val_dataset_full, val_subset_temp.indices)
 
     train_loader = DataLoader(train_subset, batch_size=batch_Size, shuffle=True)
     val_loader = DataLoader(val_subset, batch_size=batch_Size, shuffle=False)
