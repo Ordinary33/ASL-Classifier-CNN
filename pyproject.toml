@@ -43,3 +43,8 @@ priority = "explicit"
 [tool.poetry.dependencies]
 torch = {source = "pytorch_cu126"}
 torchvision = {source = "pytorch_cu126"}
+
+[tool.mypy]
+explicit_package_bases = true
+namespace_packages = true
+ignore_missing_imports = true

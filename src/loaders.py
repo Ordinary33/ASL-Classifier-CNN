@@ -23,7 +23,15 @@ def get_loaders(batch_Size, val_split=0.2):
     train_subset = train_subset_temp
     val_subset = Subset(val_dataset_full, val_subset_temp.indices)
 
-    train_loader = DataLoader(train_subset, batch_size=batch_Size, shuffle=True)
-    val_loader = DataLoader(val_subset, batch_size=batch_Size, shuffle=False)
+    train_loader = DataLoader(
+        train_subset,
+        batch_size=batch_Size,
+        shuffle=True,
+        num_workers=4,
+        pin_memory=True,
+    )
+    val_loader = DataLoader(
+        val_subset, batch_size=batch_Size, shuffle=False, num_workers=4, pin_memory=True
+    )
 
     return train_loader, val_loader, train_dataset_full.classes
