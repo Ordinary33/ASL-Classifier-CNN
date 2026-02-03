@@ -140,15 +140,6 @@ def main():
                             frame, (x1, y2 + 10), (x2, y2 + 30), (255, 255, 255), 2
                         )
 
-                        cv.putText(
-                            frame,
-                            string,
-                            (10, h - 20),
-                            cv.FONT_HERSHEY_SIMPLEX,
-                            1,
-                            (255, 255, 255),
-                            2,
-                        )
                         color = (0, 255, 0) if confidence > 0.75 else (0, 0, 255)
 
                         if confidence > 0.5:
@@ -170,9 +161,28 @@ def main():
                         frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
                     )
 
+            cv.rectangle(frame, (0, 0), (w, 80), (0, 0, 0), -1)
+            cv.putText(
+                frame,
+                "Translation: ",
+                (10, 25),
+                cv.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (255, 255, 255),
+                2,
+            )
+            cv.putText(
+                frame,
+                string,
+                (20, 65),
+                cv.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (255, 255, 255),
+                2,
+            )
             cv.imshow("ASL Translator", frame)
 
-            if cv.waitKey(1) & 0xFF == ord("q"):  # noqa: W503
+            if cv.waitKey(1) & 0xFF == ord("q"):
                 break
 
     cap.release()
