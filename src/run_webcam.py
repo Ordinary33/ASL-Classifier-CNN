@@ -173,6 +173,15 @@ def main():
             )
             cv.putText(
                 frame,
+                "Press 'c' to clear, 'q' to quit",
+                (w - 280, 30),
+                cv.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (100, 100, 100),
+                1,
+            )
+            cv.putText(
+                frame,
                 string,
                 (20, 65),
                 cv.FONT_HERSHEY_SIMPLEX,
@@ -182,8 +191,12 @@ def main():
             )
             cv.imshow("ASL Translator", frame)
 
-            if cv.waitKey(1) & 0xFF == ord("q"):
+            key = cv.waitKey(1) & 0xFF
+
+            if key == ord("q"):
                 break
+            elif key == ord("c"):
+                string = ""
 
     cap.release()
     cv.destroyAllWindows()
