@@ -1,6 +1,8 @@
-# Real-Time ASL Alphabet Recognizer
+# Real-Time ASL Alphabet Translator
 
-A deep learning computer vision application that translates American Sign Language (ASL) finger spelling into text in real-time. This system transfer learning using the pretrained weights of the resnet18 model to perform image classification on 29 classes (A-Z, space, del, nothing) and visualizes predictions via an **OpenCV** interface with prediction smoothing.
+A hybrid computer vision application that translates American Sign Language (ASL) finger spelling into text in real-time. This system combines MediaPipe for hand localization with a ResNet18 deep learning model for classification, allowing for dynamic, high-accuracy inference even in complex backgrounds.
+
+It features a "Hold-to-Type" interface with visual feedback, enabling users to construct full sentences naturally.
 
 ## Demo
 
@@ -8,18 +10,18 @@ A deep learning computer vision application that translates American Sign Langua
 
 ## 🚀 Key Features
 
-* **⚡ Deep Learning Engine:** Custom **PyTorch** CNN architecture featuring multiple convolutional blocks, Batch Normalization, and Dropout for robust feature extraction.
-* **📷 Real-Time Inference:** High-performance video processing pipeline using **OpenCV** that handles frame capture, preprocessing, and prediction at 30+ FPS.
-* **🧠 Smart Smoothing:** Implements a statistical buffer (Deque + Mode) to stabilize predictions and eliminate label flickering.
-* **🛡️ Production Grade:** Built with strict type checking (**Mypy**), formatting (**Black/Flake8**), and dependency management (**Poetry**).
-
+* **⚡ Hybrid Architecture:** Uses MediaPipe for precise hand tracking and ROI cropping, feeding only the clean hand image to a ResNet18 classifier for maximum accuracy.
+* **📷 Dynamic Auto-zoom:** The system automatically crops, centers, and resizes the hand image (224x224) regardless of distance from the camera, acting as a "smart scope" for the AI.
+* **🧠 Smart Typing System:** Implements a "Hold-to-Type" logic with a visual progress bar. The system requires sign stability before "locking in" a letter, preventing jittery outputs.
+* **📝 Sentence Management** Includes logic for **Space**, **Delete**, and **Clear** operations, allowing users to write and edit full sentences on screen.
 ---
 
 ## 🛠️ Tech Stack
 
 * **Computer Vision:** OpenCV (cv2)
 * **Machine Learning:** PyTorch, Scikit-Learn (Metrics)
-* **Environment:** Python 3.13+, Poetry
+* **Environment:** Python 3.11+, Poetry
+* **Localization**: MediaPipe Hands
 
 ---
 
@@ -44,7 +46,7 @@ A deep learning computer vision application that translates American Sign Langua
 ## ⚡ Installation & Setup
 
 ### 1. Prerequisites
-* Python 3.13+ installed.
+* Python 3.11+ installed.
 
 * Poetry installed for dependency management.
 
@@ -82,6 +84,5 @@ The model utilizes a custom CNN architecture optimized for 224x224 RGB images.
 * It achieved perfect recall (1.00) on the validation test set.
 
 ### 🔮 Future Improvements
-* Background Removal: Integrate MediaPipe Hands to segment the hand from the background for higher accuracy in messy rooms.
-
-* Sentence Formation: Add logic to string letters together into words and sentences.
+* Dynamic Backgrounds: Add a toggle to switch between camera view and a solid black background for privacy.
+* Text-to-Speech (TTS): Integrate pyttsx3 to read the generated sentences aloud.
