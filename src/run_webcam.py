@@ -59,6 +59,12 @@ def main():
 
     prediction_history = deque(maxlen=5)
 
+    string = ""
+    stability_count = 0
+    last_label = ""
+    last_text = ""
+    stability_threshold = 30
+
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
         print("Cannot open camera")
@@ -99,6 +105,50 @@ def main():
                         except statistics.StatisticsError:
                             stable_level = label
 
+                        if stable_level == last_label:
+                            stability_count += 1
+
+                        else:
+                            stability_count = 0
+                            last_label = stable_level
+                            last_text = None
+
+                        if (
+                            stability_count >= stability_threshold
+                            and stable_level != last_text
+                        ):
+                            if stable_level == "space":
+                                string += " "
+                                last_text = stable_level
+                            elif stable_level == "del":
+                                string = string[:-1]
+                                last_text = stable_level
+                            else:
+                                string += stable_level
+                                last_text = stable_level
+
+                        ratio = min(1.0, stability_count / stability_threshold)
+                        prog_bar_width = (ratio) * (x2 - x1)
+                        cv.rectangle(
+                            frame,
+                            (x1, y2 + 10),
+                            (x1 + int(prog_bar_width), y2 + 30),
+                            (0, 255, 0),
+                            -1,
+                        )
+                        cv.rectangle(
+                            frame, (x1, y2 + 10), (x2, y2 + 30), (255, 255, 255), 2
+                        )
+
+                        cv.putText(
+                            frame,
+                            string,
+                            (10, h - 20),
+                            cv.FONT_HERSHEY_SIMPLEX,
+                            1,
+                            (255, 255, 255),
+                            2,
+                        )
                         color = (0, 255, 0) if confidence > 0.75 else (0, 0, 255)
 
                         if confidence > 0.5:
@@ -122,7 +172,7 @@ def main():
 
             cv.imshow("ASL Translator", frame)
 
-            if cv.waitKey(1) & 0xFF == ord("q"):
+            if cv.waitKey(1) & 0xFF == ord("q"):  # noqa: W503
                 break
 
     cap.release()
