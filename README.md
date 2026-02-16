@@ -6,7 +6,10 @@ It features a "Hold-to-Type" interface with visual feedback, enabling users to c
 
 ## Demo
 
----
+
+https://github.com/user-attachments/assets/dfa4bdab-d43f-4879-82ef-afa894daba3c
+
+
 
 ## 🚀 Key Features
 
